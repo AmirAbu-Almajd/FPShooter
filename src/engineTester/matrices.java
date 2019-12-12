@@ -1,5 +1,14 @@
 package engineTester;
 
+import org.lwjgl.util.vector.Vector3f;
+
+import entities.Entity;
+import models.RawModel;
+import models.TexturedModel;
+import renderEngine.Loader;
+import renderEngine.OBJLoader;
+import textures.ModelTexture;
+
 public class matrices {
 	public static float[] loading_bar= {
 			//0
@@ -170,5 +179,19 @@ public class matrices {
 			23,21,22
 
 	};
+	public static Entity load3D(String objectFileName,String textureFileName,String textureType ) {
+		Loader loader = new Loader();
+		RawModel tempRaw = OBJLoader.loadObjModel(objectFileName,loader);
+		TexturedModel tempTex = new TexturedModel(tempRaw, new ModelTexture(loader.loadTexture(textureFileName,textureType )));
+		Entity temEntity = new Entity(tempTex, new Vector3f(0,0,0),0, 0, 0, 1);
+		return temEntity;
+	}
+	public static Entity load2D(float[] vertices1,float[] texCoords1,int[] indices1,String textureFileName,String textureType ) {
+		Loader loader = new Loader();
+		RawModel tempRaw = loader.loadToVAO2D(vertices1, texCoords1, indices1);
+		TexturedModel tempTex = new TexturedModel(tempRaw, new ModelTexture(loader.loadTexture(textureFileName,textureType )));
+		Entity temEntity = new Entity(tempTex, new Vector3f(0,0,0),0, 0, 0, 1);
+		return temEntity;
+	}
 
 }

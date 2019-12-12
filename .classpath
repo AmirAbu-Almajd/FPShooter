@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/Jars/lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/Jars/slick-util.jar"/>
 	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/PNGDecoder.jar"/>
+	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/assimp-1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
