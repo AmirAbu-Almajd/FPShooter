@@ -101,6 +101,12 @@ public class matrices {
 			0,1,3,
 			3,1,2,
 	};
+	public static float[] tempBox = {				
+			-100.0f,-0.5f,100,
+			-100.0f,-0.5f,-100,
+			100.0f,-0.5f,-100,
+			100.0f,-0.5f,100,
+	};
 	public static float[] vertices = {			
 			-0.5f,0.5f,0,	
 			-0.5f,-0.5f,0,	
@@ -133,29 +139,86 @@ public class matrices {
 			0.5f,-0.5f,1
 			
 	};
-
-	public static float[] textureCoords = {
+	public static float[] skybox = {			
+			-100.0f,100.0f,-100,	
+			-100.0f,-100.0f,-100,	
+			100.0f,-100.0f,-100,	
+			100.0f,100.0f,-100,		
 			
+			-100.0f,100.0f,100,	
+			-100.0f,-100.0f,100,	
+			100.0f,-100.0f,100,	
+			100.0f,100.0f,100,
+			
+			100.0f,100.0f,-100,	
+			100.0f,-100.0f,-100,	
+			100.0f,-100.0f,100,	
+			100.0f,100.0f,100,
+			
+			-100.0f,100.0f,-100,	
+			-100.0f,-100.0f,-100,	
+			-100.0f,-100.0f,100,	
+			-100.0f,100.0f,100,
+			
+			-100f,100.0f,100,
+			-100f,100.0f,-100,
+			100f,100.0f,-100,
+			100f,100.0f,100,
+			//floor
+			-100.0f,-100.0f,100,
+			-100.0f,-100.0f,-100,
+			100.0f,-100.0f,-100,
+			100.0f,-100.0f,100,
+			
+	};
+	public static float[] ground= {
+			-100.0f,-0.5f,100,
+			-100.0f,-0.5f,-100,
+			100.0f,-0.5f,-100,
+			100.0f,-0.5f,100,
+			
+	};
+	public static float[] temp= {
+			-1.0f,0.0f,1,
+			-1.0f,0.0f,-1,
+			1.0f,0.0f,-1,
+			1.0f,0.0f,1,
+			
+	};
+	public static float[] temp2 = {
+			0,0,
+			0,1,
+			1,1,
+			1,0,
+	};
+	
+	public static float[] textureCoords = {
+//0
 			0,0,
 			0,1,
 			1,1,
 			1,0,			
-			0,0,
-			0,1,
-			1,1,
-			1,0,			
-			0,0,
-			0,1,
-			1,1,
-			1,0,
+//1
 			0,0,
 			0,1,
 			1,1,
 			1,0,
+//2
 			0,0,
 			0,1,
 			1,1,
 			1,0,
+//3
+			0,0,
+			0,1,
+			1,1,
+			1,0,
+//4
+			0,0,
+			0,1,
+			1,1,
+			1,0,
+//5	
 			0,0,
 			0,1,
 			1,1,
@@ -163,7 +226,13 @@ public class matrices {
 
 			
 	};
-	
+	public static float[] temp3tex = {
+			//0
+						0,0,
+						0,1,
+						1,1,
+						1,0,				
+				};
 	public static int[] indices = {
 			0,1,3,	
 			3,1,2,	
@@ -178,6 +247,10 @@ public class matrices {
 			20,21,23,
 			23,21,22
 
+	};
+	public static int[] tempInd = {
+			0,1,3,	
+			3,1,2,	
 	};
 	public static Entity load3D(String objectFileName,String textureFileName,String textureType ) {
 		Loader loader = new Loader();

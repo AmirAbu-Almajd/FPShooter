@@ -21,9 +21,8 @@ public class DisplayManager {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
 			Display.create(new PixelFormat(), attribs);
-			Display.setTitle("Our First Display!");
+			Display.setTitle("Call Of Duty |||");
 		} catch (LWJGLException e) {
-			System.out.println("a7a");
 			e.printStackTrace();
 		}
 		

@@ -49,12 +49,14 @@ public class MainGameLoop {
 		TexturedModel controlsbg_tex = new TexturedModel(controlsbg_raw, new ModelTexture(loader.loadTexture("controls background.jpg", "JPG")));
 		//entities initialization
 		Entity entity = matrices.load2D(matrices.vertices,matrices.textureCoords , matrices.indices, "white2.png", "PNG");
+		Entity skybox = matrices.load2D(matrices.skybox,matrices.textureCoords , matrices.indices, "sky.jpg", "JPG");
+		Entity ground = matrices.load2D(matrices.ground,matrices.tex , matrices.ind, "Ground2.jpg", "JPG");		
 		Entity car = matrices.load3D("dpv", "dp2.png", "PNG");
 		Entity smg = new Entity(smgModel, new Vector3f(0.09f,-0.02f,-0.09f), 0, 0, 0, 0.06f);
 		//Entities setup
 		entity.setPosition(new Vector3f(0,0,-5));
 		car.setScale(0.008f);
-		car.setPosition(new Vector3f(0,0,2.5f));
+		car.setPosition(new Vector3f(0,-0.5f,2.5f));
 		smg.setRotY(200);
 		//ModelTexture tekModelTexture = marioModel.getTexture();
 		//tekModelTexture.setShineDamper(10);
@@ -131,8 +133,10 @@ public class MainGameLoop {
 			
 				shader.loadViewMatrix(camera);
 				car.increaseRotation(0, 1, 0);
-				renderer.render(entity, shader);
+				//renderer.render(entity, shader);
 				renderer.render(car, shader);
+				renderer.render(skybox, shader);
+				renderer.render(ground, shader);
 				renderer.render(smg, shader);
 				shader.stop();
 			}
