@@ -63,6 +63,10 @@ public class Camera {
 		return position;
 	}
 
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+
 	public float getPitch() {
 		return pitch;
 	}
