@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/openvr-1.0.jar"/>
 	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/PNGDecoder.jar"/>
 	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/slick-util.jar"/>
+	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/jl1.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

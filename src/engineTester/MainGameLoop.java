@@ -11,7 +11,8 @@ import javax.security.auth.x500.X500Principal;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-
+import org.omg.CORBA.PUBLIC_MEMBER;
+import java.applet.*;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.OBJLoader;
@@ -23,8 +24,8 @@ import entities.Entity;
 import entities.Light;
 
 public class MainGameLoop {
-
 	public static void main(String[] args) {
+
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
@@ -72,7 +73,7 @@ public class MainGameLoop {
 		Entity ground = matrices.load2D(matrices.ground,matrices.tex , matrices.ind, "Ground2.jpg", "JPG");		
 		Entity car = matrices.load3D("dpv", "dp2.png", "PNG");
 		//Entity car2 = matrices.load3D("Big_Old_House", "dp2.png", "PNG");
-		Entity QBZ = matrices.load3D("QBZ-95", "dp2.png", "PNG");
+	//	Entity QBZ = matrices.load3D("QBZ-95", "dp2.png", "PNG");
 		//Entity wood= matrices.load3D("Wood", "WoodTexture.png", "PNG");
 		Entity sniper = matrices.load3D("KSR-29 sniper rifle new_obj", "Sniper_KSR_29_Col.jpg", "JPG");
 		//Entity daboura_house = matrices.load3D("cottage_obj", "dSniper_KSR_29_Col.png", "PNG");
@@ -83,10 +84,14 @@ public class MainGameLoop {
 		
 		Entity cart = matrices.load3D("stall", "stallTexture.png", "PNG");
 		Entity smg = new Entity(smgModel, new Vector3f(0.09f,1.02f,-0.09f), 0, 0, 0, 0.06f);
+		Entity alien = matrices.load3D("Alien Animal", "dp2.png", "PNG");
 		//Entities setup
 		entity.setPosition(new Vector3f(0,0,-5));
 		cart.setPosition(new Vector3f(0,-0.5f,-10));
 		car.setScale(0.012f);
+		alien.setScale(0.2f);
+		//alien.setRotY(180);
+		alien.increasePosition(0, 0, 10);
 		car.setPosition(new Vector3f(0,-0.5f,-2.5f));
 		//car2.setScale(1.5f);
 		//car2.setPosition(new Vector3f(0,-0.5f,8.0f));
@@ -94,11 +99,11 @@ public class MainGameLoop {
 		sniper.setScale(0.5f);
 		tower.setPosition(new Vector3f(0,-0.5f,-30f));
 		smg.setRotY(200);
-		QBZ.setPosition(new Vector3f(0.08f,1.95f,-0.07f));
-		QBZ.setScale(0.55f);
-		QBZ.setRotX(180);
-		QBZ.setRotZ(270);
-		QBZ.setRotY(-18);
+		Weapons.QBZ.setPosition(new Vector3f(0.08f,1.95f,-0.07f));
+		Weapons.QBZ.setScale(0.55f);
+		Weapons.QBZ.setRotX(180);
+		Weapons.QBZ.setRotZ(270);
+		Weapons.QBZ.setRotY(-15);
 		smg.setPosition(new Vector3f(0,0.5f,4.0f));
 		smg.setScale(0.3f);
 //		ModelTexture tekModelTexture = marioModel.getTexture();
@@ -187,12 +192,31 @@ public class MainGameLoop {
 				renderer.render(smg, shader);
 				renderer.render(sniper, shader);
 				renderer.render(tower, shader);
+				renderer.render(alien, shader);
 				//renderer.render(car2, shader);
-				renderer.render(QBZ, shader);
+				renderer.render(Weapons.QBZ, shader);
 	//			renderer.render(K98, shader);
 				//renderer.render(build, shader);
 				//renderer.render(wood, shader);
 				//renderer.render(daboura_house, shader);
+
+				//Enemy motion
+				Vector3f alienP = alien.getPosition();
+				Vector3f cameraP = camera.getPosition();
+				float xd1 = alienP.x-cameraP.x;
+				float yd1 = alienP.z-cameraP.z;
+				alien.increasePosition(0, 0, -yd1*0.005f);
+				alien.increasePosition(-xd1*0.005f, 0, 0);
+				double xd = Math.abs(alienP.x-cameraP.x);
+				double yd = Math.abs(alienP.z-cameraP.z);
+				double diagonal = Math.sqrt(Math.pow(xd, 2)+Math.pow(yd, 2));
+				double a = yd/diagonal;
+				double angle = Math.toDegrees(Math.atan2(xd1,yd1));
+//				System.out.println(xd);
+//				System.out.println(yd);
+//				System.out.println(diagonal);
+//				System.out.println(angle);
+				alien.setRotY((float)angle+180);
 //				lightShader.stop();
 				shader.stop();
 			}
