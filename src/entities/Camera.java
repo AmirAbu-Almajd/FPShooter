@@ -23,7 +23,7 @@ public class Camera {
 	public void move(){
 		newX = Mouse.getX();
 		newY = Mouse.getY();
-		float jump = 0.02f;
+		float jump = 0.06f;
 
 //			direction = new Vector3f((float)(-Math.cos(pitch) * Math.sin(yaw))
 //				, (float)(Math.sin(pitch))

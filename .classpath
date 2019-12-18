@@ -1,41 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="FPShooter/lib/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/glm-1.0.1.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/jna-4.2.2.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/jna-platform-4.2.2.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/joou-0.9.1.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/lwjgl.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/openvr-1.0.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/PNGDecoder.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/slick-util.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-assimp.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-assimp-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-stb.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-stb-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-bgfx.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-bgfx-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-glfw.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-glfw-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-nanovg.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-nanovg-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-nuklear.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-nuklear-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-openal.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-openal-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-opengl.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-opengl-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-par.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-par-natives-windows.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-release-3.2.2-custom.zip"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl-vulkan.jar"/>
-	<classpathentry kind="lib" path="D:/Sub/New folder/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/assimp-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/glm-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/jna-4.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/jna-platform-4.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/joou-0.9.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/openvr-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/PNGDecoder.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
