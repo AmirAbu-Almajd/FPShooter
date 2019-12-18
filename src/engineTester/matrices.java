@@ -288,7 +288,7 @@ public class matrices {
 		Loader loader = new Loader();
 		RawModel tempRaw = OBJLoader.loadObjModel(objectFileName,loader);
 		TexturedModel tempTex = new TexturedModel(tempRaw, new ModelTexture(loader.loadTexture(textureFileName,textureType )));
-		Entity temEntity = new Entity(tempTex, new Vector3f(0,0,0),0, 0, 0, 1);
+		Entity temEntity = new Entity(tempTex, new Vector3f(0,-0.5f,0),0, 0, 0, 1);
 		return temEntity;
 	}
 	public static Entity load2D(float[] vertices1,float[] texCoords1,int[] indices1,String textureFileName,String textureType ) {

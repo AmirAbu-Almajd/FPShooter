@@ -34,6 +34,7 @@ public class Camera {
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			position.x-=x;
 			position.z-=z;
+			
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			position.x+=z;

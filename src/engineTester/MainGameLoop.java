@@ -78,7 +78,7 @@ public class MainGameLoop {
 		//Entity daboura_house = matrices.load3D("cottage_obj", "dSniper_KSR_29_Col.png", "PNG");
 		//Entity build=matrices.load3D("builidng", "wall22.jpg", "JPG");
 		Entity tower=matrices.load3D("wooden watch tower2", "Wood_Tower_Col.JPG", "JPG");
-		Entity K98 = matrices.load3D("x-bikerduc", "dp2.png", "PNG");
+	//	Entity K98 = matrices.load3D("x-bikerduc", "dp2.png", "PNG");
 		
 		
 		Entity cart = matrices.load3D("stall", "stallTexture.png", "PNG");
@@ -89,12 +89,16 @@ public class MainGameLoop {
 		car.setScale(0.012f);
 		car.setPosition(new Vector3f(0,-0.5f,-2.5f));
 		//car2.setScale(1.5f);
-		QBZ.setScale(6.5f);
 		//car2.setPosition(new Vector3f(0,-0.5f,8.0f));
 		sniper.setPosition(new Vector3f(0.5f,-0.8f,-15.0f));
 		sniper.setScale(0.5f);
 		tower.setPosition(new Vector3f(0,-0.5f,-30f));
 		smg.setRotY(200);
+		QBZ.setPosition(new Vector3f(0.08f,1.95f,-0.07f));
+		QBZ.setScale(0.55f);
+		QBZ.setRotX(180);
+		QBZ.setRotZ(270);
+		QBZ.setRotY(-18);
 		smg.setPosition(new Vector3f(0,0.5f,4.0f));
 		smg.setScale(0.3f);
 //		ModelTexture tekModelTexture = marioModel.getTexture();
@@ -185,7 +189,7 @@ public class MainGameLoop {
 				renderer.render(tower, shader);
 				//renderer.render(car2, shader);
 				renderer.render(QBZ, shader);
-				renderer.render(K98, shader);
+	//			renderer.render(K98, shader);
 				//renderer.render(build, shader);
 				//renderer.render(wood, shader);
 				//renderer.render(daboura_house, shader);
