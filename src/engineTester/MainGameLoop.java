@@ -35,6 +35,7 @@ public class MainGameLoop {
 		Renderer renderer = new Renderer(shader);
 		Renderer renderer2 = new Renderer(lightShader);
 		int screen = 1;
+		int health = 100;
 		Light light = new Light(new Vector3f(0,-3,0),new Vector3f(1.0f,1.0f,1.0f));
 		//raw models
 		RawModel load_raw = loader.loadToVAO2D(matrices.loading_bar, matrices.load_tex, matrices.ind);
@@ -42,6 +43,7 @@ public class MainGameLoop {
 		RawModel start_raw = loader.loadToVAO2D(matrices.start_button, matrices.tex, matrices.ind);
 		RawModel controls_raw = loader.loadToVAO2D(matrices.controls_button, matrices.tex, matrices.ind);
 		RawModel controlsbg_raw = loader.loadToVAO2D(matrices.controls_bg, matrices.tex, matrices.ind);
+		RawModel health_raw = loader.loadToVAO2D(matrices.health_bar, matrices.load_tex, matrices.ind);
 		RawModel smgRaw = OBJLoader.loadObjModel("smg1", loader);
 		//textured models
 		TexturedModel smgModel = new TexturedModel(smgRaw, new ModelTexture(loader.loadTexture("M24R_C.jpg", "JPG")));
@@ -50,6 +52,7 @@ public class MainGameLoop {
 		TexturedModel start_tex = new TexturedModel(start_raw, new ModelTexture(loader.loadTexture	("start.jpg", "JPG")));
 		TexturedModel controls_tex = new TexturedModel(controls_raw, new ModelTexture(loader.loadTexture("controls.jpg", "JPG")));
 		TexturedModel controlsbg_tex = new TexturedModel(controlsbg_raw, new ModelTexture(loader.loadTexture("controls background.jpg", "JPG")));
+		TexturedModel health_tex = new TexturedModel(health_raw, new ModelTexture(loader.loadTexture("green.png", "PNG")));
 		//entities initialization
 		
 		Entity entity = matrices.load2D(matrices.vertices,matrices.textureCoords , matrices.indices, "white2.png", "PNG");
@@ -169,8 +172,12 @@ public class MainGameLoop {
 				shader2D.stop();
 			}
 			else if(screen==3) {
+				shader2D.start();
+				int tmpHealth = (health/25)*6-24;
+				renderer.render_loading(health_tex, shader2D,tmpHealth);
+				shader2D.stop();
 				shader.start();
-
+				
 //				lightShader.start();
 //				lightShader.loadLight(light);
 //				Random rand = new Random();
@@ -179,6 +186,7 @@ public class MainGameLoop {
 //				float float_random3=rand.nextFloat();
 //				light = new Light(new Vector3f(0,100,0), new Vector3f(float_random1,float_random2,float_random3));
 				camera.move();
+//				renderer.render2D(health_tex, shader2D);
 				shader.loadViewMatrix(camera);
 				car.increaseRotation(0, 1, 0);
 				renderer.render(cart, shader);
