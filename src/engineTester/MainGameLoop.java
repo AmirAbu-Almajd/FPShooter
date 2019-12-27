@@ -38,6 +38,8 @@ public class MainGameLoop {
 		Renderer wRenderer = new Renderer(wShader);
 		boolean weaponSwitch = false;
 		boolean bulletOut = false;
+		float bulletYaw=0;
+		float bulletPitch=0;
 		int screen = 1;
 		int health = 100;
 		Vector3f bulletTarget= new Vector3f(0,0,0);
@@ -216,34 +218,40 @@ public class MainGameLoop {
 //				}
 				if(Mouse.isButtonDown(0))
 				{
-					float v = 0.4f;
+					float v = 0.004f;
 					float x2 = (float) Math.sin(Math.toRadians(-camera.getYaw())) * v;
 					float z2 = (float) Math.cos(Math.toRadians(-camera.getYaw())) * v;
 					Weapons.bullet.setPosition(new Vector3f(camera.getPosition().x-x2,camera.getPosition().y,camera.getPosition().z-z2));
-					bulletTarget = new Vector3f(Weapons.bullet.getPosition().x*15,Weapons.bullet.getPosition().y,Weapons.bullet.getPosition().z*15);
+					bulletTarget = new Vector3f(Weapons.bullet.getPosition().x*10,Weapons.bullet.getPosition().y,Weapons.bullet.getPosition().z*10);
+//					if(bulletTarget.x<0)
+//						bulletTarget= new Vector3f(bulletTarget.x-15,bulletTarget.y,bulletTarget.z);
+//					else
+//						bulletTarget= new Vector3f(bulletTarget.x+15,bulletTarget.y,bulletTarget.z);
+//					if(bulletTarget.y<0)
+//						bulletTarget= new Vector3f(bulletTarget.x,bulletTarget.y,bulletTarget.z-15);
+//					else
+//						bulletTarget= new Vector3f(bulletTarget.x,bulletTarget.y,bulletTarget.z+15);
+//					Weapons.bullet.setPosition(bulletTarget);
 					Vector3f bulletP = Weapons.bullet.getPosition();
 					float xd1 = bulletP.x - camera.getPosition().x;
 					float yd1 = bulletP.z - camera.getPosition().z;
 					double angle = Math.toDegrees(Math.atan2(xd1,yd1));
 					Weapons.bullet.setRotZ((float)angle+180);
+					bulletPitch=z2;
+					bulletYaw=x2;
 					bulletOut=true;
+					
 				}
 				if(bulletOut) 
 				{
-					Vector3f bulletP = Weapons.bullet.getPosition();
-					float xd1 = bulletP.x - bulletTarget.x;
-					float jmpy = 0.005f;
-					float jmpx = 0.005f;
-//					if(xd1<0) {
-//						jmpy*=-1;
-//					}
-					float yd1 = bulletP.z - bulletTarget.z;
-//					if(yd1<0) {
-//						jmpx*=-1;
-//					}
 
-					Weapons.bullet.increasePosition(0, 0, -yd1*jmpy);
-					Weapons.bullet.increasePosition(-xd1*jmpx, 0, 0);
+//					Vector3f bulletP = Weapons.bullet.getPosition();
+//					float xd1 = bulletP.x - bulletTarget.x;
+//					float jmpy = 0.005f;
+//					float jmpx = 0.005f;
+//					float yd1 = bulletP.z - bulletTarget.z;
+					Weapons.bullet.increasePosition(0, 0, -bulletPitch);
+					Weapons.bullet.increasePosition(-bulletYaw, 0, 0);
 				}
 				renderer.render(skybox, shader);
 				renderer.render(ground, shader);
