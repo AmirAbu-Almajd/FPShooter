@@ -37,8 +37,10 @@ public class MainGameLoop {
 		Renderer renderer = new Renderer(shader);
 		Renderer wRenderer = new Renderer(wShader);
 		boolean weaponSwitch = false;
+		boolean bulletOut = false;
 		int screen = 1;
 		int health = 100;
+		Vector3f bulletTarget= new Vector3f(0,0,0);
 		Light light = new Light(new Vector3f(0,100,0),new Vector3f(1.0f,1.0f,1.0f));
 		//raw models
 		RawModel load_raw = loader.loadToVAO2D(matrices.loading_bar, matrices.load_tex, matrices.ind);
@@ -94,7 +96,7 @@ public class MainGameLoop {
 		sniper.setPosition(new Vector3f(0.5f,-0.8f,-15.0f));
 		Weapons.bullet.setPosition(new Vector3f(0.0f,2.0f,15.0f));
 		Weapons.bullet.setRotX(-90);
-		Weapons.bullet .setScale(0.5f);
+		Weapons.bullet .setScale(0.1f);
 		sniper.setScale(0.5f);
 		tower.setPosition(new Vector3f(0,-0.5f,-30f));
 		Weapons.smg.setRotY(200);
@@ -122,7 +124,8 @@ public class MainGameLoop {
 				renderer.render2D(cod_tex, shader2D);
 				renderer.render2D(start_tex, shader2D);
 			    renderer.render2D(controls_tex, shader2D);
-				if(Mouse.isButtonDown(0)) {
+				if(Mouse.isButtonDown(0)) 
+				{
 					if(Mouse.getX()>=448&&Mouse.getX()<=832&&Mouse.getY()>=77&&Mouse.getY()<=249) {
 						screen=2;
 						shader2D.stop();
@@ -151,7 +154,8 @@ public class MainGameLoop {
 				shader2D.stop();
 
 			}
-			else if(screen==2) {
+			else if(screen==2) 
+			{
 				shader2D.start();
 				renderer.render2D(controlsbg_tex, shader2D);
 				if(Mouse.isButtonDown(0))
@@ -168,13 +172,14 @@ public class MainGameLoop {
 			}
 			else if(screen==3) {
 				shader2D.start();
-				int tmpHealth = (health/25)*6-24;
+				int tmpHealth = 24-(health/25)*6;
 				renderer.render_loading(health_tex, shader2D,tmpHealth);
 				shader2D.stop();
 				shader.start();
 				shader.loadLight(light);
 				camera.move();
 				System.out.println(camera.getPosition());
+				System.out.println("Yaw : "+camera.getYaw()%180+"\nPitch : "+camera.getPitch()%180);
 				shader.loadViewMatrix2(camera);
 				if(Keyboard.isKeyDown(Keyboard.KEY_1))
 				{
@@ -209,7 +214,37 @@ public class MainGameLoop {
 //				for(int y=0;y<45;y++) {
 //					renderer.render(pillars[y], shader);
 //				}
+				if(Mouse.isButtonDown(0))
+				{
+					float v = 0.4f;
+					float x2 = (float) Math.sin(Math.toRadians(-camera.getYaw())) * v;
+					float z2 = (float) Math.cos(Math.toRadians(-camera.getYaw())) * v;
+					Weapons.bullet.setPosition(new Vector3f(camera.getPosition().x-x2,camera.getPosition().y,camera.getPosition().z-z2));
+					bulletTarget = new Vector3f(Weapons.bullet.getPosition().x*15,Weapons.bullet.getPosition().y,Weapons.bullet.getPosition().z*15);
+					Vector3f bulletP = Weapons.bullet.getPosition();
+					float xd1 = bulletP.x - camera.getPosition().x;
+					float yd1 = bulletP.z - camera.getPosition().z;
+					double angle = Math.toDegrees(Math.atan2(xd1,yd1));
+					Weapons.bullet.setRotZ((float)angle+180);
+					bulletOut=true;
+				}
+				if(bulletOut) 
+				{
+					Vector3f bulletP = Weapons.bullet.getPosition();
+					float xd1 = bulletP.x - bulletTarget.x;
+					float jmpy = 0.005f;
+					float jmpx = 0.005f;
+//					if(xd1<0) {
+//						jmpy*=-1;
+//					}
+					float yd1 = bulletP.z - bulletTarget.z;
+//					if(yd1<0) {
+//						jmpx*=-1;
+//					}
 
+					Weapons.bullet.increasePosition(0, 0, -yd1*jmpy);
+					Weapons.bullet.increasePosition(-xd1*jmpx, 0, 0);
+				}
 				renderer.render(skybox, shader);
 				renderer.render(ground, shader);
 				renderer.render(Weapons.bullet, shader);
@@ -224,17 +259,8 @@ public class MainGameLoop {
 				float yd1 = alienP.z-cameraP.z;
 //				alien.increasePosition(0, 0, -yd1*0.005f);
 //				alien.increasePosition(-xd1*0.005f, 0, 0);
-				double xd = Math.abs(alienP.x-cameraP.x);
-				double yd = Math.abs(alienP.z-cameraP.z);
-				double diagonal = Math.sqrt(Math.pow(xd, 2)+Math.pow(yd, 2));
-				double a = yd/diagonal;
 				double angle = Math.toDegrees(Math.atan2(xd1,yd1));
-//				System.out.println(xd);
-//				System.out.println(yd);
-//				System.out.println(diagonal);
-//				System.out.println(angle);
 				alien.setRotY((float)angle+180);
-//				lightShader.stop();
 				shader.stop();
 			}
 			DisplayManager.updateDisplay();
