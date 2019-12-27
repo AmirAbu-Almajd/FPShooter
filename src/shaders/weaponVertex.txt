@@ -3,7 +3,7 @@
 in vec3 position;
 in vec2 textureCoordinates;
 in vec3 normal;
-in int flag;
+
 
 out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
@@ -16,11 +16,9 @@ uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 
 void main(void){
+
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
-	if(true)
-	{
-		gl_Position = projectionMatrix * viewMatrix * worldPosition;
-	}
+	gl_Position = projectionMatrix  *viewMatrix* worldPosition;
 	pass_textureCoordinates = textureCoordinates;
 	
 	surfaceNormal = (transformationMatrix*vec4(normal,0.0)).xyz;

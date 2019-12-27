@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -32,11 +33,13 @@ public class MainGameLoop {
 		StaticShader shader = new StaticShader("vertexShader.txt","fragmentShader.txt");
 		StaticShader lightShader = new StaticShader("vertexShader - light.txt","fragmentShader - light.txt");
 		StaticShader shader2D = new StaticShader("2DvertexShader.txt","2DfragmentShader.txt");
+		StaticShader wShader = new StaticShader("weaponVertex.txt","weaponFragment.txt");
 		Renderer renderer = new Renderer(shader);
-		Renderer renderer2 = new Renderer(lightShader);
+		Renderer wRenderer = new Renderer(wShader);
+		boolean weaponSwitch = false;
 		int screen = 1;
 		int health = 100;
-		Light light = new Light(new Vector3f(0,-3,0),new Vector3f(1.0f,1.0f,1.0f));
+		Light light = new Light(new Vector3f(0,100,0),new Vector3f(1.0f,1.0f,1.0f));
 		//raw models
 		RawModel load_raw = loader.loadToVAO2D(matrices.loading_bar, matrices.load_tex, matrices.ind);
 		RawModel cod_raw = loader.loadToVAO2D(matrices.cod_bg, matrices.tex, matrices.ind);
@@ -44,14 +47,14 @@ public class MainGameLoop {
 		RawModel controls_raw = loader.loadToVAO2D(matrices.controls_button, matrices.tex, matrices.ind);
 		RawModel controlsbg_raw = loader.loadToVAO2D(matrices.controls_bg, matrices.tex, matrices.ind);
 		RawModel health_raw = loader.loadToVAO2D(matrices.health_bar, matrices.load_tex, matrices.ind);
-		RawModel smgRaw = OBJLoader.loadObjModel("smg1", loader);
+		RawModel car2 = OBJLoader.loadObjModel("dpv", loader);
 		//textured models
-		TexturedModel smgModel = new TexturedModel(smgRaw, new ModelTexture(loader.loadTexture("M24R_C.jpg", "JPG")));
 		TexturedModel load_tex = new TexturedModel(load_raw, new ModelTexture(loader.loadTexture("green.png", "PNG")));
 		TexturedModel cod_tex = new TexturedModel(cod_raw, new ModelTexture(loader.loadTexture("cod.jpg", "JPG")));
 		TexturedModel start_tex = new TexturedModel(start_raw, new ModelTexture(loader.loadTexture	("start.jpg", "JPG")));
 		TexturedModel controls_tex = new TexturedModel(controls_raw, new ModelTexture(loader.loadTexture("controls.jpg", "JPG")));
 		TexturedModel controlsbg_tex = new TexturedModel(controlsbg_raw, new ModelTexture(loader.loadTexture("controls background.jpg", "JPG")));
+		TexturedModel carTEx = new TexturedModel(car2, new ModelTexture(loader.loadTexture("dp2.png", "PNG")));
 		TexturedModel health_tex = new TexturedModel(health_raw, new ModelTexture(loader.loadTexture("green.png", "PNG")));
 		//entities initialization
 		
@@ -75,55 +78,47 @@ public class MainGameLoop {
 		Entity skybox = matrices.load2D(matrices.skybox,matrices.textureCoords , matrices.indices, "sky.jpg", "JPG");
 		Entity ground = matrices.load2D(matrices.ground,matrices.tex , matrices.ind, "Ground2.jpg", "JPG");		
 		Entity car = matrices.load3D("dpv", "dp2.png", "PNG");
-		//Entity car2 = matrices.load3D("Big_Old_House", "dp2.png", "PNG");
-	//	Entity QBZ = matrices.load3D("QBZ-95", "dp2.png", "PNG");
-		//Entity wood= matrices.load3D("Wood", "WoodTexture.png", "PNG");
+		Entity car3 = new Entity(carTEx, new Vector3f(10,-0.5f,0),0, 0, 0, 1);
 		Entity sniper = matrices.load3D("KSR-29 sniper rifle new_obj", "Sniper_KSR_29_Col.jpg", "JPG");
-		//Entity daboura_house = matrices.load3D("cottage_obj", "dSniper_KSR_29_Col.png", "PNG");
-		//Entity build=matrices.load3D("builidng", "wall22.jpg", "JPG");
 		Entity tower=matrices.load3D("wooden watch tower2", "Wood_Tower_Col.JPG", "JPG");
-	//	Entity K98 = matrices.load3D("x-bikerduc", "dp2.png", "PNG");
-		
-		
 		Entity cart = matrices.load3D("stall", "stallTexture.png", "PNG");
-		Entity smg = new Entity(smgModel, new Vector3f(0.09f,1.02f,-0.09f), 0, 0, 0, 0.06f);
 		Entity alien = matrices.load3D("Alien Animal", "dp2.png", "PNG");
 		//Entities setup
 		entity.setPosition(new Vector3f(0,0,-5));
 		cart.setPosition(new Vector3f(0,-0.5f,-10));
 		car.setScale(0.012f);
+		car3.setScale(0.012f);
 		alien.setScale(0.2f);
-		//alien.setRotY(180);
 		alien.increasePosition(0, 0, 10);
-		car.setPosition(new Vector3f(0,-0.5f,-2.5f));
-		//car2.setScale(1.5f);
-		//car2.setPosition(new Vector3f(0,-0.5f,8.0f));
+		car.setPosition(new Vector3f(0,-0.5f,-2.5f));	
 		sniper.setPosition(new Vector3f(0.5f,-0.8f,-15.0f));
+		Weapons.bullet.setPosition(new Vector3f(0.0f,2.0f,15.0f));
+		Weapons.bullet.setRotX(-90);
+		Weapons.bullet .setScale(0.5f);
 		sniper.setScale(0.5f);
 		tower.setPosition(new Vector3f(0,-0.5f,-30f));
-		smg.setRotY(200);
-		Weapons.QBZ.setPosition(new Vector3f(0.08f,1.95f,-0.07f));
+		Weapons.smg.setRotY(200);
+		Weapons.QBZ.setPosition(new Vector3f(0.08f,-0.05f,-0.07f));
 		Weapons.QBZ.setScale(0.55f);
 		Weapons.QBZ.setRotX(180);
 		Weapons.QBZ.setRotZ(270);
 		Weapons.QBZ.setRotY(-15);
-		smg.setPosition(new Vector3f(0,0.5f,4.0f));
-		smg.setScale(0.3f);
-//		ModelTexture tekModelTexture = marioModel.getTexture();
+		Weapons.smg.setPosition(new Vector3f(0.2f,-0.08f,-0.2f));
+		Weapons.smg.setScale(0.1f);
+//		ModelTexture tekModelTexture = carTEx.getTexture();
 //		tekModelTexture.setShineDamper(10);
 //		tekModelTexture.setReflectivity(1);
 		//camera setup
 		Camera camera = new Camera();
 		camera.setPosition(new Vector3f(0,2,0));
-		while(!Display.isCloseRequested()){
+		while(!Display.isCloseRequested())
+		{
 			renderer.prepare();
 //			System.out.println("X: "+Mouse.getX());
 //			System.out.println("Y: "+Mouse.getY());
 			if(screen==1)
 			{
 				shader2D.start();
-
-
 				renderer.render2D(cod_tex, shader2D);
 				renderer.render2D(start_tex, shader2D);
 			    renderer.render2D(controls_tex, shader2D);
@@ -177,44 +172,58 @@ public class MainGameLoop {
 				renderer.render_loading(health_tex, shader2D,tmpHealth);
 				shader2D.stop();
 				shader.start();
-				
-//				lightShader.start();
-//				lightShader.loadLight(light);
-//				Random rand = new Random();
-//				float float_random1=rand.nextFloat();
-//				float float_random2=rand.nextFloat();
-//				float float_random3=rand.nextFloat();
-//				light = new Light(new Vector3f(0,100,0), new Vector3f(float_random1,float_random2,float_random3));
+				shader.loadLight(light);
 				camera.move();
-//				renderer.render2D(health_tex, shader2D);
+				System.out.println(camera.getPosition());
+				shader.loadViewMatrix2(camera);
+				if(Keyboard.isKeyDown(Keyboard.KEY_1))
+				{
+					if(weaponSwitch)
+					{
+						renderer.render(Weapons.QBZ, shader);						
+						weaponSwitch=false;
+					}
+
+					else
+					{
+						renderer.render(Weapons.smg, shader);
+						weaponSwitch=true;
+					}
+
+				}
+				if(!weaponSwitch) 
+				{
+					renderer.render(Weapons.QBZ, shader);					
+				}
+				else
+				{
+					renderer.render(Weapons.smg, shader);
+				}
+
 				shader.loadViewMatrix(camera);
+
 				car.increaseRotation(0, 1, 0);
 				renderer.render(cart, shader);
 				//renderer.render(entity, shader);
-				//renderer2.render(car, lightShader);
+				renderer.render(car3, shader);
 //				for(int y=0;y<45;y++) {
 //					renderer.render(pillars[y], shader);
 //				}
+
 				renderer.render(skybox, shader);
 				renderer.render(ground, shader);
-				renderer.render(smg, shader);
+				renderer.render(Weapons.bullet, shader);
 				renderer.render(sniper, shader);
 				renderer.render(tower, shader);
 				renderer.render(alien, shader);
 				//renderer.render(car2, shader);
-				renderer.render(Weapons.QBZ, shader);
-	//			renderer.render(K98, shader);
-				//renderer.render(build, shader);
-				//renderer.render(wood, shader);
-				//renderer.render(daboura_house, shader);
-
 				//Enemy motion
 				Vector3f alienP = alien.getPosition();
 				Vector3f cameraP = camera.getPosition();
 				float xd1 = alienP.x-cameraP.x;
 				float yd1 = alienP.z-cameraP.z;
-				alien.increasePosition(0, 0, -yd1*0.005f);
-				alien.increasePosition(-xd1*0.005f, 0, 0);
+//				alien.increasePosition(0, 0, -yd1*0.005f);
+//				alien.increasePosition(-xd1*0.005f, 0, 0);
 				double xd = Math.abs(alienP.x-cameraP.x);
 				double yd = Math.abs(alienP.z-cameraP.z);
 				double diagonal = Math.sqrt(Math.pow(xd, 2)+Math.pow(yd, 2));

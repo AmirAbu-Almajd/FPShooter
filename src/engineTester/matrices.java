@@ -87,33 +87,33 @@ public class matrices {
 		};
 	public static float[] health_bar= {
 			//100
-			-0.9f,0.7f,-0.1f,
-			-0.3f,0.7f,-0.1f,	
-			-0.3f,0.8f,-0.1f,	
-			-0.3f,0.8f,-0.1f,	
-			-0.9f,0.8f,-0.1f,	
-			-0.9f,0.7f,-0.1f,
+			-0.9f,0.7f,-0.0f,
+			-0.3f,0.7f,-0.0f,	
+			-0.3f,0.8f,-0.0f,	
+			-0.3f,0.8f,-0.0f,	
+			-0.9f,0.8f,-0.0f,	
+			-0.9f,0.7f,-0.0f,
 			//75
-			-0.9f,0.7f,-0.1f,
-			-0.45f,0.7f,-0.1f,	
-			-0.45f,0.8f,-0.1f,	
-			-0.45f,0.8f,-0.1f,	
-			-0.9f,0.8f,-0.1f,	
-			-0.9f,0.7f,-0.1f,
+			-0.9f,0.7f,-0.0f,
+			-0.45f,0.7f,-0.0f,	
+			-0.45f,0.8f,-0.0f,	
+			-0.45f,0.8f,-0.0f,	
+			-0.9f,0.8f,-0.0f,	
+			-0.9f,0.7f,-0.0f,
 			//50
-			-0.9f,0.7f,-0.1f,
-			-0.6f,0.7f,-0.1f,	
-			-0.6f,0.8f,-0.1f,	
-			-0.6f,0.8f,-0.1f,	
-			-0.9f,0.8f,-0.1f,	
-			-0.9f,0.7f,-0.1f,
+			-0.9f,0.7f,-0.0f,
+			-0.6f,0.7f,-0.0f,	
+			-0.6f,0.8f,-0.0f,	
+			-0.6f,0.8f,-0.0f,	
+			-0.9f,0.8f,-0.0f,	
+			-0.9f,0.7f,-0.0f,
 			//25
-			-0.9f,0.7f,-0.1f,
-			-0.75f,0.7f,-0.1f,	
-			-0.75f,0.8f,-0.1f,	
-			-0.75f,0.8f,-0.1f,	
-			-0.9f,0.8f,-0.1f,	
-			-0.9f,0.7f,-0.1f,
+			-0.9f,0.7f,-0.0f,
+			-0.75f,0.7f,-0.0f,	
+			-0.75f,0.8f,-0.0f,	
+			-0.75f,0.8f,-0.0f,	
+			-0.9f,0.8f,-0.0f,	
+			-0.9f,0.7f,-0.0f,
 		};
 	public static float[] tex = {
 			1,0,
@@ -317,7 +317,7 @@ public class matrices {
 	public static Entity load3D(String objectFileName,String textureFileName,String textureType ) {
 		Loader loader = new Loader();
 		RawModel tempRaw = OBJLoader.loadObjModel(objectFileName,loader);
-		TexturedModel tempTex = new TexturedModel(tempRaw, new ModelTexture(loader.loadTexture(textureFileName,textureType )));
+		TexturedModel tempTex = new TexturedModel(tempRaw, new ModelTexture(loader.loadTexture(textureFileName,textureType)));
 		Entity temEntity = new Entity(tempTex, new Vector3f(0,-0.5f,0),0, 0, 0, 1);
 		return temEntity;
 	}

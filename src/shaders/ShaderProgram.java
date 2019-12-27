@@ -19,7 +19,8 @@ public abstract class ShaderProgram {
 	
 	private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 	
-	public ShaderProgram(String vertexFile,String fragmentFile){
+	public ShaderProgram(String vertexFile,String fragmentFile)
+	{
 		vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER);
 		fragmentShaderID = loadShader(fragmentFile,GL20.GL_FRAGMENT_SHADER);
 		programID = GL20.glCreateProgram();
@@ -76,7 +77,8 @@ public abstract class ShaderProgram {
 		GL20.glUniform1f(location, toLoad);
 	}
 	
-	protected void loadMatrix(int location, Matrix4f matrix){
+	protected void loadMatrix(int location, Matrix4f matrix)
+	{
 		matrix.store(matrixBuffer);
 		matrixBuffer.flip();
 		GL20.glUniformMatrix4(location, false, matrixBuffer);
