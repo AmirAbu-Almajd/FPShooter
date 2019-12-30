@@ -26,7 +26,7 @@ import entities.Light;
 
 public class MainGameLoop {
 	public static void main(String[] args) {
-		int count = 0, count2 = 0, c = 0, c2 = 0;
+		int count = 0, count2 = 0,count3=0,count4=0;
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
@@ -94,13 +94,15 @@ public class MainGameLoop {
 		Entity cart = matrices.load3D("stall", "stallTexture.png", "PNG");
 		Entity alien = matrices.load3D("Alien Animal", "dp2.png", "PNG");
 		Entity alien2 = matrices.load3D("Alien Animal", "dp2_gold.jpg", "JPG");
+		Entity alien3 = matrices.load3D("Alien Animal", "dp2.png", "PNG");
+		Entity alien4 = matrices.load3D("Alien Animal", "dp2_gold.jpg", "JPG");
 		Entity can = matrices.load3D("can", "can_CM.jpg", "JPG");
 		Entity can2 = matrices.load3D("can", "can_CM.jpg", "JPG");
 
 		// Entities setup
-		can.setPosition(new Vector3f(19, 0f, 19f));
+		can.setPosition(new Vector3f(19, 2f, 19f));
 		can.setScale(5);
-		can2.setPosition(new Vector3f(-20, 0f, -13f));
+		can2.setPosition(new Vector3f(-20, 2f, -13f));
 		can2.setScale(5);
 		entity.setPosition(new Vector3f(0, 0, -5));
 		cart.setPosition(new Vector3f(0, -0.5f, -10));
@@ -110,6 +112,11 @@ public class MainGameLoop {
 		alien.increasePosition(50, 0, 50);
 		alien2.setScale(0.2f);
 		alien2.increasePosition(-50, 0, -50);
+		alien3.setScale(0.2f);
+		alien3.increasePosition(50, 0, -50);
+		alien4.setScale(0.2f);
+		alien4.increasePosition(-50, 0, 50);
+
 		car.setPosition(new Vector3f(0, -0.5f, -2.5f));
 		sniper.setPosition(new Vector3f(0.5f, -0.8f, -15.0f));
 		Weapons.bullet.setPosition(new Vector3f(555f, 555f, 555f));
@@ -134,6 +141,8 @@ public class MainGameLoop {
 			if (screen == 1) {
 				count = 0;
 				count2 = 0;
+				count3=0;
+				count4=0;
 				shader2D.start();
 				renderer.render2D(cod_tex, shader2D);
 				renderer.render2D(start_tex, shader2D);
@@ -177,33 +186,39 @@ public class MainGameLoop {
 				}
 				shader2D.stop();
 			} else if (screen == 3) {
-				System.out.println("Health : " + health);
 				shader2D.start();
 				Vector3f cameraP2 = camera.getPosition();
 				Vector3f alienP2 = alien.getPosition();
 				Vector3f alien2P2 = alien2.getPosition();
-
+				Vector3f alien3P2 = alien3.getPosition();
+				Vector3f alien4P2 = alien4.getPosition();
+			
 				double can11 = Math.sqrt(Math.pow(cameraP2.x - 19, 2) + Math.pow(cameraP2.z - 19, 2));
 				double can22 = Math.sqrt(Math.pow(cameraP2.x + 20, 2) + Math.pow(cameraP2.z + 13, 2));
 				double aliencoll = Math.sqrt(Math.pow(cameraP2.x - alienP2.x, 2) + Math.pow(cameraP2.z - alienP2.z, 2));
-				double aliencoll2 = Math
-						.sqrt(Math.pow(cameraP2.x - alien2P2.x, 2) + Math.pow(cameraP2.z - alien2P2.z, 2));
+				double aliencoll2 = Math.sqrt(Math.pow(cameraP2.x - alien2P2.x, 2) + Math.pow(cameraP2.z - alien2P2.z, 2));
+				double aliencoll3 = Math.sqrt(Math.pow(cameraP2.x - alien3P2.x, 2) + Math.pow(cameraP2.z - alien3P2.z, 2));
+				double aliencoll4 = Math.sqrt(Math.pow(cameraP2.x - alien4P2.x, 2) + Math.pow(cameraP2.z - alien4P2.z, 2));
+				
 				if (aliencoll2 > 4) {
 
 					int tmpHealth = 24 - (health / 25) * 6;
 					renderer.render_loading(health_tex, shader2D, tmpHealth);
 				} else {
-					if (can22 <= 4 | can11 <= 4) {
-						health = 100;
-					} else
-						health -= 10;
+					
+						health -= 2;
 					if (health < 25) {
 						screen = 1;
 						Vector3f v = new Vector3f(0, 2, 0);
 						camera.setPosition(v);
 						alien2.setPosition(new Vector3f(50f, 0f, 50f));
 						alien.setPosition(new Vector3f(-50f, 0f, -50f));
+						alien3.setPosition(new Vector3f(50f, 0f, -50f));
+						alien4.setPosition(new Vector3f(-50f, 0f, 50f));
+
 						health = 100;
+						weaponPicked=false;
+
 					}
 				}
 
@@ -211,9 +226,50 @@ public class MainGameLoop {
 					int tmpHealth = 24 - (health / 25) * 6;
 					renderer.render_loading(health_tex, shader2D, tmpHealth);
 				} else {
-					if (can22 <= 4 | can11 <= 4) {
+					
+						health -= 5;
+					if (health < 25) {
+						screen = 1;
+						Vector3f v = new Vector3f(0, 2, 0);
+						camera.setPosition(v);
+						alien3.setPosition(new Vector3f(50f, 0f, -50f));
+						alien4.setPosition(new Vector3f(-50f, 0f, 50f));
+
+						alien2.setPosition(new Vector3f(50f, 0f, 50f));
+						alien.setPosition(new Vector3f(-50f, 0f, -50f));
 						health = 100;
-					} else
+						weaponPicked=false;
+
+					}
+
+				}
+				if (aliencoll3 > 4) {
+					int tmpHealth = 24 - (health / 25) * 6;
+					renderer.render_loading(health_tex, shader2D, tmpHealth);
+				} else {
+
+						health -= 2;
+					if (health < 25) {
+						screen = 1;
+						Vector3f v = new Vector3f(0, 2, 0);
+						camera.setPosition(v);
+						alien3.setPosition(new Vector3f(50f, 0f, -50f));
+						alien4.setPosition(new Vector3f(-50f, 0f, 50f));
+						alien2.setPosition(new Vector3f(50f, 0f, 50f));
+						alien.setPosition(new Vector3f(-50f, 0f, -50f));
+						health = 100;
+						weaponPicked=false;
+
+					}
+
+				}
+				
+				if (aliencoll4 > 4) {
+
+					int tmpHealth = 24 - (health / 25) * 6;
+					renderer.render_loading(health_tex, shader2D, tmpHealth);
+				} else {
+					
 						health -= 5;
 					if (health < 25) {
 						screen = 1;
@@ -221,17 +277,26 @@ public class MainGameLoop {
 						camera.setPosition(v);
 						alien2.setPosition(new Vector3f(50f, 0f, 50f));
 						alien.setPosition(new Vector3f(-50f, 0f, -50f));
+						alien3.setPosition(new Vector3f(50f, 0f, -50f));
+						alien4.setPosition(new Vector3f(-50f, 0f, 50f));
 						health = 100;
+						weaponPicked=false;
+
 					}
-
 				}
-
+				
+				if (can22 <= 5 | can11 <= 5) {
+					health = 100;
+				} 
 				shader.stop();
 				shader2D.stop();
 				shader.start();
 				camera.move();
 				shader.loadLight(light);
-
+				double WeaponColl = Math.sqrt(Math.pow(cameraP2.x + 15, 2) + Math.pow(cameraP2.z - 15, 2));
+			if (WeaponColl < 2) {
+				weaponPicked=true;				
+				} 
 				shader.loadViewMatrix2(camera);
 				if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
 					if (weaponPicked) {
@@ -261,6 +326,13 @@ public class MainGameLoop {
 					Weapons.QBZ.setScale(2);
 					renderer.render(Weapons.QBZ, shader);
 				}
+				else {
+					Weapons.QBZ.setPosition(new Vector3f(0.08f, -0.05f, -0.07f));
+					Weapons.QBZ.setScale(0.55f);
+					Weapons.QBZ.setRotX(180);
+					Weapons.QBZ.setRotZ(270);
+					Weapons.QBZ.setRotY(-15);
+				}
 				car.increaseRotation(0, 1, 0);
 				renderer.render(cart, shader);
 				renderer.render(car3, shader);
@@ -270,7 +342,12 @@ public class MainGameLoop {
 					camera.setPosition(v);
 					alien2.setPosition(new Vector3f(50f, 0f, 50f));
 					alien.setPosition(new Vector3f(-50f, 0f, -50f));
+					alien3.setPosition(new Vector3f(50f, 0f, -50f));
+					alien4.setPosition(new Vector3f(-50f, 0f, 50f));
 					health = 100;
+					weaponPicked=false;
+					weaponSwitch=true;
+					
 				}
 				if (Mouse.isButtonDown(0)) {
 
@@ -303,19 +380,26 @@ public class MainGameLoop {
 
 				Vector3f bulletp = Weapons.bullet.getPosition();
 
+				
+				
+				
+				
+				
+				
 				Vector3f cameraP = camera.getPosition();
 				Vector3f alienP = alien.getPosition();
 				double bulletcoll = Math.sqrt(Math.pow(alienP.x - bulletp.x, 2) + Math.pow(alienP.z - bulletp.z, 2));
 
 				float xd1 = alienP.x - cameraP.x;
 				float yd1 = alienP.z - cameraP.z;
-				float jmpy = 0.05f;
-				float jmpx = 0.05f;
-				if (yd1 < 0)
-					jmpy *= -1;
-				if (xd1 < 0)
-					jmpx *= -1;
+//				float jmpy = 0.05f;
+//				float jmpx = 0.05f;
+//				if (yd1 < 0)
+//					jmpy *= -1;
+//				if (xd1 < 0)
+//					jmpx *= -1;
 
+				
 				if (count == 0) {
 					if (bulletcoll > 3) {
 						double towerColl = Math.sqrt(Math.pow(0f - alienP.x, 2) + Math.pow(-30f - alienP.z, 2));
@@ -323,14 +407,12 @@ public class MainGameLoop {
 						double carColl = Math.sqrt(Math.pow(10f - alienP.x, 2) + Math.pow(0f - alienP.z, 2));
 						if (towerColl > 5 & cartColl > 5 & carColl > 5) {
 							renderer.render(alien, shader);
-							alien.increasePosition(0, 0, -jmpy);
-							alien.increasePosition(-jmpx, 0, 0);
+							alien.increasePosition(0, 0, -yd1*0.005f);
+							alien.increasePosition(-xd1*0.005f, 0, 0);
 							double angle = Math.toDegrees(Math.atan2(xd1, yd1));
 							alien.setRotY((float) angle + 180);
 						} else {
 							renderer.render(alien, shader);
-							alien.increasePosition(0, 0, -1);
-							alien.increasePosition(-1, 0, 0);
 							double angle = Math.toDegrees(Math.atan2(xd1, yd1));
 							alien.setRotY((float) angle + 180);
 						}
@@ -340,10 +422,14 @@ public class MainGameLoop {
 					}
 
 				}
+	
 				cameraP = camera.getPosition();
 				System.out.println(cameraP.x);
 				System.out.println(cameraP.z);
 
+				
+				
+				
 				Vector3f alien2P = alien2.getPosition();
 				float xd2 = alien2P.x - cameraP.x;
 				float yd2 = alien2P.z - cameraP.z;
@@ -363,8 +449,6 @@ public class MainGameLoop {
 							alien2.setRotY((float) angle + 180);
 						} else {
 							renderer.render(alien2, shader);
-							alien2.increasePosition(0, 0, -1 * 0.005f);
-							alien2.increasePosition(-1 * 0.005f, 0, 0);
 							double angle = Math.toDegrees(Math.atan2(xd2, yd2));
 							alien2.setRotY((float) angle + 180);
 						}
@@ -374,6 +458,78 @@ public class MainGameLoop {
 					}
 
 				}
+		
+				Vector3f alien3P = alien3.getPosition();
+				bulletp = Weapons.bullet.getPosition();
+				double bulletcoll3 = Math.sqrt(Math.pow(alien3P.x - bulletp.x, 2) + Math.pow(alien3P.z - bulletp.z, 2));
+				
+				float xd3 = alien3P.x - cameraP.x;
+				float yd3 = alien3P.z - cameraP.z;
+			
+
+				if (count3 == 0) {
+					if (bulletcoll3 > 3) {
+						double towerColl = Math.sqrt(Math.pow(0f - alien3P.x, 2) + Math.pow(-30f - alien3P.z, 2));
+						double cartColl = Math.sqrt(Math.pow(0f - alien3P.x, 2) + Math.pow(-10f - alien3P.z, 2));
+						double carColl = Math.sqrt(Math.pow(10f - alien3P.x, 2) + Math.pow(0f - alien3P.z, 2));
+						if (towerColl > 5 & cartColl > 5 & carColl > 5) {
+							renderer.render(alien3, shader);
+							alien3.increasePosition(0, 0, -yd3 * 0.005f);
+							alien3.increasePosition(-xd3 * 0.005f, 0, 0);
+
+							double angle = Math.toDegrees(Math.atan2(xd3, yd3));
+							alien3.setRotY((float) angle + 180);
+						} else {
+							renderer.render(alien3, shader);
+							
+							double angle = Math.toDegrees(Math.atan2(xd3, yd3));
+							alien3.setRotY((float) angle + 180);
+						}
+					} else {
+						alien3.setPosition(new Vector3f(555, 555, 555));
+						count3 = 1;
+					}
+
+				}
+				
+			
+				
+				
+				
+				Vector3f alien4p = alien4.getPosition();
+				bulletp = Weapons.bullet.getPosition();
+				double bulletcoll4 = Math.sqrt(Math.pow(alien4p.x - bulletp.x, 2) + Math.pow(alien4p.z - bulletp.z, 2));
+			
+				float xd4 = alien4p.x - cameraP.x;
+				float yd4 = alien4p.z - cameraP.z;
+			
+				if (count4 == 0) {
+					if (bulletcoll4 > 3) {
+						double towerColl = Math.sqrt(Math.pow(0f - alien4p.x, 2) + Math.pow(-30f - alien4p.z, 2));
+						double cartColl = Math.sqrt(Math.pow(0f - alien4p.x, 2) + Math.pow(-10f - alien4p.z, 2));
+						double carColl = Math.sqrt(Math.pow(10f - alien4p.x, 2) + Math.pow(0f - alien4p.z, 2));
+						if (towerColl > 5 & cartColl > 5 & carColl > 5) {
+							renderer.render(alien4, shader);
+							alien4.increasePosition(0, 0, -yd4 * 0.005f);
+							alien4.increasePosition(-xd4 * 0.005f, 0, 0);
+
+							double angle = Math.toDegrees(Math.atan2(xd4, yd4));
+							alien4.setRotY((float) angle + 180);
+						} else {
+							renderer.render(alien4, shader);
+							
+							double angle = Math.toDegrees(Math.atan2(xd4, yd4));
+							alien4.setRotY((float) angle + 180);
+						}
+					} else {
+						alien4.setPosition(new Vector3f(555, 555, 555));
+						count4 = 1;
+					}
+
+				}
+				
+
+				
 
 			}
 
