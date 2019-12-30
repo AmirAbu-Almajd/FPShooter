@@ -26,7 +26,7 @@ import entities.Light;
 
 public class MainGameLoop {
 	public static void main(String[] args) {
-
+int count=0,count2=0,c=0,c2=0;
 
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
@@ -38,10 +38,10 @@ public class MainGameLoop {
 		Renderer wRenderer = new Renderer(wShader);
 		boolean weaponSwitch = false;
 		boolean bulletOut = false;
-		float bulletYaw=0;
-		float bulletPitch=0;
 		int screen = 1;
 		int health = 100;
+		float globalPitch=0;
+		float globalYaw=0;
 		Vector3f bulletTarget= new Vector3f(0,0,0);
 		Light light = new Light(new Vector3f(0,100,0),new Vector3f(1.0f,1.0f,1.0f));
 		//raw models
@@ -87,16 +87,26 @@ public class MainGameLoop {
 		Entity tower=matrices.load3D("wooden watch tower2", "Wood_Tower_Col.JPG", "JPG");
 		Entity cart = matrices.load3D("stall", "stallTexture.png", "PNG");
 		Entity alien = matrices.load3D("Alien Animal", "dp2.png", "PNG");
+		Entity alien2 = matrices.load3D("Alien Animal", "dp2_gold.jpg", "JPG");
+		Entity can = matrices.load3D("can", "can_CM.jpg", "JPG");
+		Entity can2 = matrices.load3D("can", "can_CM.jpg", "JPG");
+
 		//Entities setup
+		can.setPosition(new Vector3f(19, 0f, 19f));
+		can.setScale(5);
+		can2.setPosition(new Vector3f(-20, 0f, -13f));
+		can2.setScale(5);
 		entity.setPosition(new Vector3f(0,0,-5));
 		cart.setPosition(new Vector3f(0,-0.5f,-10));
 		car.setScale(0.012f);
 		car3.setScale(0.012f);
 		alien.setScale(0.2f);
-		alien.increasePosition(0, 0, 10);
+		alien.increasePosition(50, 0, 50);
+		alien2.setScale(0.2f);
+		alien2.increasePosition(-50, 0, -50);
 		car.setPosition(new Vector3f(0,-0.5f,-2.5f));	
 		sniper.setPosition(new Vector3f(0.5f,-0.8f,-15.0f));
-		Weapons.bullet.setPosition(new Vector3f(0.0f,2.0f,15.0f));
+		Weapons.bullet.setPosition(new Vector3f(555f,555f,555f));
 		Weapons.bullet.setRotX(-90);
 		Weapons.bullet .setScale(0.1f);
 		sniper.setScale(0.5f);
@@ -109,19 +119,17 @@ public class MainGameLoop {
 		Weapons.QBZ.setRotY(-15);
 		Weapons.smg.setPosition(new Vector3f(0.2f,-0.08f,-0.2f));
 		Weapons.smg.setScale(0.1f);
-//		ModelTexture tekModelTexture = carTEx.getTexture();
-//		tekModelTexture.setShineDamper(10);
-//		tekModelTexture.setReflectivity(1);
-		//camera setup
+
 		Camera camera = new Camera();
 		camera.setPosition(new Vector3f(0,2,0));
 		while(!Display.isCloseRequested())
 		{
 			renderer.prepare();
-//			System.out.println("X: "+Mouse.getX());
-//			System.out.println("Y: "+Mouse.getY());
+
 			if(screen==1)
 			{
+				count=0;
+				count2=0;
 				shader2D.start();
 				renderer.render2D(cod_tex, shader2D);
 				renderer.render2D(start_tex, shader2D);
@@ -173,15 +181,71 @@ public class MainGameLoop {
 				shader2D.stop();
 			}
 			else if(screen==3) {
+				System.out.println("Health : "+ health);
 				shader2D.start();
-				int tmpHealth = 24-(health/25)*6;
-				renderer.render_loading(health_tex, shader2D,tmpHealth);
+				Vector3f cameraP2=camera.getPosition();
+				Vector3f alienP2=alien.getPosition();
+				Vector3f alien2P2=alien2.getPosition();
+
+				double can11= Math.sqrt(Math.pow(cameraP2.x-19,2)+Math.pow(cameraP2.z-19,2));
+				double can22= Math.sqrt(Math.pow(cameraP2.x+20,2)+Math.pow(cameraP2.z+13,2));
+				double aliencoll= Math.sqrt(Math.pow(cameraP2.x-alienP2.x,2)+Math.pow(cameraP2.z-alienP2.z,2));
+				double aliencoll2= Math.sqrt(Math.pow(cameraP2.x-alien2P2.x,2)+Math.pow(cameraP2.z-alien2P2.z,2));
+				if(aliencoll2>4)
+				{
+					
+					int tmpHealth = 24-(health/25)*6;
+					renderer.render_loading(health_tex, shader2D,tmpHealth);
+				}
+				else
+				{
+					if(can22<=4|can11<=4)
+					{
+						health=100;
+					}
+					else
+					health-=10;
+					if(health<25) {
+					screen=1;
+					Vector3f v=new Vector3f(0,2,0);
+					camera.setPosition(v);			
+					alien2.setPosition(new Vector3f(50f,0f,50f));
+					alien.setPosition(new Vector3f(-50f,0f,-50f));
+					health=100;
+					}
+				}
+				
+				if(aliencoll>4)
+				{
+					int tmpHealth = 24-(health/25)*6;
+					renderer.render_loading(health_tex, shader2D,tmpHealth);
+				}
+				else
+				{
+					if(can22<=4|can11<=4)
+					{
+						health=100;
+					}
+					else
+					health-=5;
+					if(health<25) {
+					screen=1;
+					Vector3f v=new Vector3f(0,2,0);
+					camera.setPosition(v);			
+					alien2.setPosition(new Vector3f(50f,0f,50f));
+					alien.setPosition(new Vector3f(-50f,0f,-50f));
+					health=100;
+					}
+
+				}
+
+
+				shader.stop();
 				shader2D.stop();
 				shader.start();
-				shader.loadLight(light);
 				camera.move();
-				System.out.println(camera.getPosition());
-				System.out.println("Yaw : "+camera.getYaw()%180+"\nPitch : "+camera.getPitch()%180);
+				shader.loadLight(light);
+
 				shader.loadViewMatrix2(camera);
 				if(Keyboard.isKeyDown(Keyboard.KEY_1))
 				{
@@ -211,66 +275,138 @@ public class MainGameLoop {
 
 				car.increaseRotation(0, 1, 0);
 				renderer.render(cart, shader);
-				//renderer.render(entity, shader);
 				renderer.render(car3, shader);
-//				for(int y=0;y<45;y++) {
-//					renderer.render(pillars[y], shader);
-//				}
+				if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) 
+				{
+					screen=1;
+					Vector3f v=new Vector3f(0,2,0);
+					camera.setPosition(v);			
+					alien2.setPosition(new Vector3f(50f,0f,50f));
+					alien.setPosition(new Vector3f(-50f,0f,-50f));
+					health=100;				
+					}
 				if(Mouse.isButtonDown(0))
 				{
-					float v = 0.004f;
+
+					float v = 0.4f;
 					float x2 = (float) Math.sin(Math.toRadians(-camera.getYaw())) * v;
 					float z2 = (float) Math.cos(Math.toRadians(-camera.getYaw())) * v;
 					Weapons.bullet.setPosition(new Vector3f(camera.getPosition().x-x2,camera.getPosition().y,camera.getPosition().z-z2));
-					bulletTarget = new Vector3f(Weapons.bullet.getPosition().x*10,Weapons.bullet.getPosition().y,Weapons.bullet.getPosition().z*10);
-//					if(bulletTarget.x<0)
-//						bulletTarget= new Vector3f(bulletTarget.x-15,bulletTarget.y,bulletTarget.z);
-//					else
-//						bulletTarget= new Vector3f(bulletTarget.x+15,bulletTarget.y,bulletTarget.z);
-//					if(bulletTarget.y<0)
-//						bulletTarget= new Vector3f(bulletTarget.x,bulletTarget.y,bulletTarget.z-15);
-//					else
-//						bulletTarget= new Vector3f(bulletTarget.x,bulletTarget.y,bulletTarget.z+15);
-//					Weapons.bullet.setPosition(bulletTarget);
 					Vector3f bulletP = Weapons.bullet.getPosition();
 					float xd1 = bulletP.x - camera.getPosition().x;
 					float yd1 = bulletP.z - camera.getPosition().z;
 					double angle = Math.toDegrees(Math.atan2(xd1,yd1));
 					Weapons.bullet.setRotZ((float)angle+180);
-					bulletPitch=z2;
-					bulletYaw=x2;
+					globalPitch=z2;
+					globalYaw=x2;
 					bulletOut=true;
-					
 				}
 				if(bulletOut) 
 				{
-
-//					Vector3f bulletP = Weapons.bullet.getPosition();
-//					float xd1 = bulletP.x - bulletTarget.x;
-//					float jmpy = 0.005f;
-//					float jmpx = 0.005f;
-//					float yd1 = bulletP.z - bulletTarget.z;
-					Weapons.bullet.increasePosition(0, 0, -bulletPitch);
-					Weapons.bullet.increasePosition(-bulletYaw, 0, 0);
+					Weapons.bullet.increasePosition(0, 0, -globalPitch);
+					Weapons.bullet.increasePosition(-globalYaw, 0, 0);
 				}
+				if(bulletOut)
+				renderer.render(Weapons.bullet, shader);
 				renderer.render(skybox, shader);
 				renderer.render(ground, shader);
-				renderer.render(Weapons.bullet, shader);
 				renderer.render(sniper, shader);
 				renderer.render(tower, shader);
-				renderer.render(alien, shader);
-				//renderer.render(car2, shader);
-				//Enemy motion
-				Vector3f alienP = alien.getPosition();
+				renderer.render(can, shader);
+				renderer.render(can2, shader);
+
+				Vector3f bulletp=Weapons.bullet.getPosition();
+
+
+
+				
 				Vector3f cameraP = camera.getPosition();
+				Vector3f alienP = alien.getPosition();
+				double bulletcoll= Math.sqrt(Math.pow(alienP.x-bulletp.x,2)+Math.pow(alienP.z-bulletp.z,2));
+				
 				float xd1 = alienP.x-cameraP.x;
 				float yd1 = alienP.z-cameraP.z;
-//				alien.increasePosition(0, 0, -yd1*0.005f);
-//				alien.increasePosition(-xd1*0.005f, 0, 0);
-				double angle = Math.toDegrees(Math.atan2(xd1,yd1));
-				alien.setRotY((float)angle+180);
-				shader.stop();
+				float jmpy=0.05f;
+				float jmpx=0.05f;
+				if(yd1<0)
+					jmpy*=-1;
+				if(xd1<0)
+					jmpx*=-1;
+				
+				if(count==0)
+				{
+					if(bulletcoll>3)
+					{
+					double towerColl= Math.sqrt(Math.pow(0f-alienP.x,2)+Math.pow(-30f-alienP.z,2));
+					double cartColl= Math.sqrt(Math.pow(0f-alienP.x,2)+Math.pow(-10f-alienP.z,2));
+					double carColl= Math.sqrt(Math.pow(10f-alienP.x,2)+Math.pow(0f-alienP.z,2));
+					if(towerColl>5&cartColl>5&carColl>5)
+					{
+					renderer.render(alien, shader);
+					alien.increasePosition(0, 0, -jmpy);
+					alien.increasePosition(-jmpx, 0, 0);
+					double angle = Math.toDegrees(Math.atan2(xd1,yd1));
+					alien.setRotY((float)angle+180);
+					}
+					else
+					{
+						renderer.render(alien, shader);
+						alien.increasePosition(0, 0, -1);
+						alien.increasePosition(-1, 0, 0);
+						double angle = Math.toDegrees(Math.atan2(xd1,yd1));
+						alien.setRotY((float)angle+180);
+					}
+					}
+				else
+				{
+					alien.setPosition(new Vector3f(555,555,555));
+					count=1;
+				}
+				
+				}
+				 cameraP = camera.getPosition();
+				 System.out.println(cameraP.x);
+				 System.out.println(cameraP.z);
+
+				Vector3f alien2P = alien2.getPosition();
+				float xd2 = alien2P.x-cameraP.x;
+				float yd2 = alien2P.z-cameraP.z;
+				bulletp=Weapons.bullet.getPosition();
+				double bulletcoll2= Math.sqrt(Math.pow(alien2P.x-bulletp.x,2)+Math.pow(alien2P.z-bulletp.z,2));
+		
+				if(count2==0){
+					if(bulletcoll2>3)
+					{
+						double towerColl= Math.sqrt(Math.pow(0f-alien2P.x,2)+Math.pow(-30f-alien2P.z,2));
+						double cartColl= Math.sqrt(Math.pow(0f-alien2P.x,2)+Math.pow(-10f-alien2P.z,2));
+						double carColl= Math.sqrt(Math.pow(10f-alien2P.x,2)+Math.pow(0f-alien2P.z,2));
+						if(towerColl>5&cartColl>5&carColl>5)
+						{
+						renderer.render(alien2, shader);
+						alien2.increasePosition(0, 0, -yd2*0.005f);
+						alien2.increasePosition(-xd2*0.005f, 0, 0);
+						double angle = Math.toDegrees(Math.atan2(xd2,yd2));
+						alien2.setRotY((float)angle+180);
+						}else
+						{
+							renderer.render(alien2, shader);
+							alien2.increasePosition(0, 0, -1*0.005f);
+							alien2.increasePosition(-1*0.005f, 0, 0);
+							double angle = Math.toDegrees(Math.atan2(xd2,yd2));
+							alien2.setRotY((float)angle+180);
+						}
+					}
+					else
+					{
+						alien2.setPosition(new Vector3f(555,555,555));
+						count2=1;
+					}
+					
+					}
+				
 			}
+				
+			
 			DisplayManager.updateDisplay();
 		}
 

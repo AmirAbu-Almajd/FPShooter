@@ -6,16 +6,16 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/assimp-1.0.1.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/glm-1.0.1.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/jna-4.2.2.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/jna-platform-4.2.2.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/joou-0.9.1.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/lwjgl.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/openvr-1.0.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/PNGDecoder.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/slick-util.jar"/>
-	<classpathentry kind="lib" path="D:/Trash/Java/FPShooter/lib/Jars/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/assimp-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/glm-1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/jna-4.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/jna-platform-4.2.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/joou-0.9.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/openvr-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/PNGDecoder.jar"/>
+	<classpathentry kind="lib" path="C:/Users/abdul/Documents/GitHub/FPShooter/lib/Jars/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
